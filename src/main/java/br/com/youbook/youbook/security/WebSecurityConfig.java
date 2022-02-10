@@ -15,7 +15,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable().authorizeRequests().antMatchers(HttpMethod.GET, "/")
+        httpSecurity.csrf().disable().authorizeRequests().antMatchers(HttpMethod.GET, "/", "/profile")
                 .permitAll().anyRequest().authenticated().and().formLogin().permitAll()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }
