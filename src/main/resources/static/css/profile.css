@@ -1,0 +1,18 @@
+.dark-mode{
+    color: white;
+}
+
+body {
+    background-color: black;    
+}
+
+.edit-body {
+    display: grid;
+    background-color: beige; 
+    margin: 0px 50px; 
+    padding: 220px
+}
+
+.edit-body span#username_text {
+    
+}
