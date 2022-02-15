@@ -10,22 +10,30 @@
     </head>
     <body>
         
-        <form class="formularioLogin" method="post">
+        <form class="formularioLogin" method="post" style="margin-top: 50px">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username" style="width: 300px;">
+            </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="width: 300px;">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" style="width: 300px;">
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" style="width: 300px;">
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" style="width: 300px;">
             </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="confirmPassword" style="width: 300px;">
+            </div>
+             <!-- <th:block th:include="passwordMismatchAlert"></th:block> -->
             <div>
-                <a href="/registro"><label style="color: crimson;">Not a member yet? click here</label></a>
+                <a href="login"><label style="color: crimson;">Already have account? Click here</label></a>
             </div>
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1" style="float: none;"/>
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                <label class="form-check-label" for="exampleCheck1">I accept the terms of service </label>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -33,3 +41,4 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     </body>
 </html>
+

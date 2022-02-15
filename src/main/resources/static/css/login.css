@@ -1,0 +1,13 @@
+body {
+    background-image: url(/imagens/backGround_Login.png);
+    text-align: center;
+    position: absolute;
+    width:100%;
+}
+
+.formularioLogin {
+    margin-top: 90px;
+    color: white;
+    display: inline-block;
+    position: relative;
+}
