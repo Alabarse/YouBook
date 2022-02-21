@@ -44,7 +44,7 @@ public class Users implements UserDetails{
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
@@ -66,7 +66,4 @@ public class Users implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
-    
-    
-    
 }
