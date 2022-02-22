@@ -11,3 +11,8 @@ body {
     display: inline-block;
     position: relative;
 }
+
+.login {
+    margin: 2px 0px 2px 0px;
+    color: red;
+}
