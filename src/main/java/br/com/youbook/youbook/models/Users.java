@@ -1,36 +1,42 @@
 package br.com.youbook.youbook.models;
 
-import java.io.Serializable;
 import java.util.Collection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @Entity
+@DynamicUpdate
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Users implements UserDetails{
     
+    @Column(nullable = true, length = 64)
+    private String perfilImage;
+    
     @Id
     @NotEmpty
-    String username;
+    private String username;
     
     @NotEmpty
-    String nomeCompleto;
+    private String nomeCompleto;
     
     @NotEmpty        
-    String email;
+    private String email;
     
     @NotEmpty
-    String password;
+    private String password;
 
     @Override
     public String getPassword() {
