@@ -1,6 +1,7 @@
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://thymeleaf.org/"
-      xmlns:layout="http://ultraq.net/thymeleaf/layout">
+      xmlns:layout="http://ultraq.net/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
     <head>
         <title>TODO supply a title</title>
 
@@ -23,23 +24,39 @@
             </ol>
         </nav>
 
-        
+
         <div  class="edit-body">
-                
-            <form method="post" th:action="@{/profile/save}"
-                  th:object="${users}" enctype="multipart/form-data">
-                <input type="file" name="profileImage" accept="image/png, image/jpeg"/>
-                        
-                    <input type="submit" name="Upload" value="Upload"/>
-                </form>
-            
-                <label id="username_text">Username</label>
-                <input type="text" th:placeholder="${#authentication.getPrincipal().getUsername()}" style="text-transform: uppercase;"/>
-                <label>Password</label>
-                <input th:type="password" placeholder="**************"/>
-                
-                
-            </div>
+
+            <table>
+                <thead>
+
+                </thead>
+                <tbody>
+                    <form method="post" th:action="@{/profile/save}"
+                          th:object="${users}" enctype="multipart/form-data">
+                        <input type="file" name="file"/> <br/>
+
+
+                        <label>Nome Completo</label> <br/>
+                        <input type="text" name="nomeCompleto"/> <br/>
+                        <label id="username_text">Username</label> <br/>
+                        <input type="text" th:placeholder="${#authentication.getPrincipal().getUsername()}" style="text-transform: uppercase;" name="username"/> <br/>
+                        <label>Password</label> <br/>
+                        <input th:type="password" placeholder="**************" name="password"/><br/>
+                        <label>Email</label><br/>
+                        <input type="email" placeholder="${#authentication.getPrincipal().getEmail()}" name="email"/><br/>
+                        <input type="submit"/>
+                    </form>
+                </tbody>
+
+            </table>
+
+
+
+
+
+
+        </div>
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

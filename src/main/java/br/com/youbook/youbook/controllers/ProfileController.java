@@ -2,8 +2,10 @@ package br.com.youbook.youbook.controllers;
 
 import br.com.youbook.youbook.models.Users;
 import br.com.youbook.youbook.repository.UsersRepository;
-import br.com.youbook.youbook.utils.FileUploadUtil;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,8 @@ public class ProfileController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
-    @Autowired
-    private FileUploadUtil fileUploadUtil;
+    private static String caminhoImagem = "D:/Mateus/Estudos Java/imagens/";
+   
     
     @GetMapping("/profile")
     public String profilePage() {
@@ -54,21 +56,24 @@ public class ProfileController {
     }
     
     @PostMapping("/profile/save") 
-    public RedirectView savePerfilImage(Users user, @RequestParam("image") MultipartFile multipartFile) throws IOException{
+    public String savePerfilImage(@Valid Users user, BindingResult bindingResult, @RequestParam("file") MultipartFile multipartFile) throws IOException{
+        if (bindingResult.hasErrors()) {
+            return "redirect:/";
+        }   
         
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        usersRepository.saveAndFlush(user);
         
-        Users newUser = new Users();
-        newUser = user;
-        usersRepository.delete(user);
-        newUser.setPerfilImage(fileName);
-        usersRepository.save(newUser);
-        
-        String uploadDir =  "user-photos/" + newUser.getUsername();
-        
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        
-        
-        return new RedirectView("/profile", true);
+        try {
+            if (!multipartFile.isEmpty()) {
+                byte[] bytes = multipartFile.getBytes();
+                Path caminho = Paths.get(caminhoImagem+String.valueOf(user.getUsername())+multipartFile.getOriginalFilename());
+                Files.write(caminho, bytes);
+                
+                user.setPerfilImage(String.valueOf(user.getUsername()+multipartFile.getOriginalFilename()));
+            }
+        }catch(IOException exception) {
+            exception.printStackTrace();
+        }
+        return "redirect:/profile";
     }
 }
