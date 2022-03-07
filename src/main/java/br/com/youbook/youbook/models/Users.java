@@ -1,10 +1,8 @@
 package br.com.youbook.youbook.models;
 
 import java.util.Collection;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -22,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 public class Users implements UserDetails{
     
-    @Column(nullable = true, length = 64)
     private String perfilImage;
     
     @Id

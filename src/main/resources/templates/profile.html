@@ -23,30 +23,33 @@
                 <li class="breadcrumb-item active">Profile</li>
             </ol>
         </nav>
-
-
         <div  class="edit-body">
 
             <table>
                 <thead>
-
+                    <tr><th><img th:src="@{/profile/{imagem}(imagem=${users?.perfilImage})}"/></th></tr>
                 </thead>
-                <tbody>
-                    <form method="post" th:action="@{/profile/save}"
-                          th:object="${users}" enctype="multipart/form-data">
-                        <input type="file" name="file"/> <br/>
-
-
-                        <label>Nome Completo</label> <br/>
-                        <input type="text" name="nomeCompleto"/> <br/>
-                        <label id="username_text">Username</label> <br/>
-                        <input type="text" th:placeholder="${#authentication.getPrincipal().getUsername()}" style="text-transform: uppercase;" name="username"/> <br/>
-                        <label>Password</label> <br/>
-                        <input th:type="password" placeholder="**************" name="password"/><br/>
-                        <label>Email</label><br/>
-                        <input type="email" placeholder="${#authentication.getPrincipal().getEmail()}" name="email"/><br/>
-                        <input type="submit"/>
-                    </form>
+                <tbody> 
+                    <tr>
+                        <td class="table-data-profile">
+                            <form method="put" th:action="@{/profile/save"} enctype="multipart/form-data" th:object="${users}">
+                                <input type="file" name="file" accept="image/*"/> <br/>
+                            </form>
+                                
+                            <form method="put" th:action="@{/profile/edit-profile}"
+                                  th:object="${users}" >
+                                
+                                <label>Nome Completo</label> <br/>
+                                <input type="text" name="" th:placeholder="${#authentication.getPrincipal().getNomeCompleto()}"/> <br/>
+                                <label id="username_text">Username</label> <br/>
+                                <input type="text" th:placeholder="${#authentication.getPrincipal().getUsername()}" style="text-transform: uppercase;" name="username"/> <br/>
+                                <label>Password</label> <br/>
+                                <input th:type="password" placeholder="*********" name="password"/><br/>
+                                <label>Email</label><br/>
+                                <input type="email" th:placeholder="${#authentication.getPrincipal().getEmail()}" name="email"/><br/>
+                                <input type="submit"/>
+                            </form></td>
+                    </tr>
                 </tbody>
 
             </table>

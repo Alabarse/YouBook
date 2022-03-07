@@ -2,6 +2,7 @@ package br.com.youbook.youbook.controllers;
 
 import br.com.youbook.youbook.models.Users;
 import br.com.youbook.youbook.repository.UsersRepository;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,35 +15,49 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
 @Controller
 @Log4j2
 public class ProfileController {
-    
+
     @Autowired
     private UsersRepository usersRepository;
-    
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    
+
     private static String caminhoImagem = "D:/Mateus/Estudos Java/imagens/";
-   
-    
+
     @GetMapping("/profile")
     public String profilePage() {
         return "profile";
     }
-    
-    @GetMapping("/register") 
+
+    @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
-    
-   @PostMapping("/register")
+
+    @GetMapping("/profile/{imagem}")
+    @ResponseBody
+    public byte[] imageReturn(@PathVariable("imagem") String imagem) throws IOException {
+        System.out.println(imagem);
+        File imagemArquivo = new File(caminhoImagem+imagem);
+        if (imagem != null || imagem.trim().length() > 0) {
+            System.out.println("Dentro da condicional " + imagem);
+            return Files.readAllBytes(imagemArquivo.toPath());
+        }
+        return null;
+    }
+    @PostMapping("/register")
     public String addUser(@Valid Users user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             log.info("Passou aqui");
@@ -54,26 +69,40 @@ public class ProfileController {
         usersRepository.save(user);
         return "redirect:/login";
     }
-    
-    @PostMapping("/profile/save") 
-    public String savePerfilImage(@Valid Users user, BindingResult bindingResult, @RequestParam("file") MultipartFile multipartFile) throws IOException{
-        if (bindingResult.hasErrors()) {
-            return "redirect:/";
-        }   
-        
-        usersRepository.saveAndFlush(user);
+
+    @PutMapping("/profile/save")
+    public String savePerfilImage(Users user, @RequestParam("file") MultipartFile multipartFile) throws IOException {
         
         try {
             if (!multipartFile.isEmpty()) {
-                byte[] bytes = multipartFile.getBytes();
-                Path caminho = Paths.get(caminhoImagem+String.valueOf(user.getUsername())+multipartFile.getOriginalFilename());
-                Files.write(caminho, bytes);
-                
-                user.setPerfilImage(String.valueOf(user.getUsername()+multipartFile.getOriginalFilename()));
+                user.setPerfilImage(String.valueOf(multipartFile.getOriginalFilename()+"_"+user.getUsername()));
+                //byte[] bytes = multipartFile.getBytes();
+                //Path caminho = Paths.get(caminhoImagem + String.valueOf(user.getUsername()) + multipartFile.getOriginalFilename());
+                //Files.write(caminho, bytes);
+
+                //user.setPerfilImage(String.valueOf(user.getUsername() + multipartFile.getOriginalFilename()));
+                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+                usersRepository.save(user);
+                System.out.println("Imagem salva: " + user.getPerfilImage());
             }
-        }catch(IOException exception) {
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
         return "redirect:/profile";
     }
+    
+    @PutMapping("/profile/edit-profile")
+    public String editProfile(@Valid Users user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "redirect:/profile";
+        }
+            if (usersRepository.findByUsername(user.getUsername()) != null ) {
+                usersRepository.deleteByUsername(user.getUsername());
+            }
+            
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            usersRepository.saveAndFlush(user);
+        return "redirect:/profile";
+    }
+    
 }

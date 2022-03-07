@@ -16,3 +16,7 @@ body {
 .edit-body span#username_text {
     
 }
+
+.table-data-profile td input{
+    size: 20px;
+}
