@@ -27,13 +27,14 @@
 
             <table>
                 <thead>
-                    <tr><th><img th:src="@{/profile/{imagem}(imagem=${users?.perfilImage})}"/></th></tr>
+                    <tr><th><img th:src="${users?.getPhotosImagePath()}"/></th></tr>
                 </thead>
                 <tbody> 
                     <tr>
                         <td class="table-data-profile">
-                            <form method="put" th:action="@{/profile/save"} enctype="multipart/form-data" th:object="${users}">
-                                <input type="file" name="file" accept="image/*"/> <br/>
+                            <form method="put" th:action="@{/profile/save}" enctype="multipart/form-data" th:object="${users}">
+                                <input type="file" name="image" accept="image/*"/> <br/>
+                                <input type="submit"/>
                             </form>
                                 
                             <form method="put" th:action="@{/profile/edit-profile}"

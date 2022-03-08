@@ -2,6 +2,7 @@ package br.com.youbook.youbook.controllers;
 
 import br.com.youbook.youbook.models.Users;
 import br.com.youbook.youbook.repository.UsersRepository;
+import br.com.youbook.youbook.utils.FileUploadUtil;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -71,23 +72,17 @@ public class ProfileController {
     }
 
     @PutMapping("/profile/save")
-    public String savePerfilImage(Users user, @RequestParam("file") MultipartFile multipartFile) throws IOException {
-        
-        try {
-            if (!multipartFile.isEmpty()) {
-                user.setPerfilImage(String.valueOf(multipartFile.getOriginalFilename()+"_"+user.getUsername()));
-                //byte[] bytes = multipartFile.getBytes();
-                //Path caminho = Paths.get(caminhoImagem + String.valueOf(user.getUsername()) + multipartFile.getOriginalFilename());
-                //Files.write(caminho, bytes);
+    public String savePerfilImage(Users user, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+    
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        user.setPerfilImage(fileName);
 
-                //user.setPerfilImage(String.valueOf(user.getUsername() + multipartFile.getOriginalFilename()));
-                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-                usersRepository.save(user);
-                System.out.println("Imagem salva: " + user.getPerfilImage());
-            }
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+        Users savedUser = usersRepository.save(user);
+        
+        String uploadDir = "user-photos/" + savedUser.getUsername();
+        
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);    
+        
         return "redirect:/profile";
     }
     

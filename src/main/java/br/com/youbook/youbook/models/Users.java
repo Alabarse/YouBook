@@ -1,9 +1,11 @@
 package br.com.youbook.youbook.models;
 
 import java.util.Collection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 public class Users implements UserDetails{
     
+    @Column(length = 45, nullable = true)
     private String perfilImage;
     
     @Id
@@ -69,4 +72,11 @@ public class Users implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
+    
+    @Transient
+    public String getPhotosImagePath() {
+        if (getPerfilImage() == null || getUsername() == null) return null;
+        return "/user-photos/" + getUsername() + getPerfilImage();
+    }
+        
 }
