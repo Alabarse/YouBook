@@ -14,9 +14,14 @@ body {
 }
 
 .edit-body span#username_text {
-    
+
 }
 
 .table-data-profile td input{
     size: 20px;
+}
+
+.profileIcon {
+    margin: -36px 0px 0px 1010px;
+    padding: 5px;
 }

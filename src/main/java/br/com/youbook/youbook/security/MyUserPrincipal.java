@@ -5,8 +5,10 @@ import java.util.Collection;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 @Data
+@Service
 public class MyUserPrincipal implements UserDetails{
 
     private static final long SERIAL_VERSION_UID = -8489053074208206273L;
@@ -22,6 +24,10 @@ public class MyUserPrincipal implements UserDetails{
         return null;
     }
 
+    public Long getId() {
+        return user.getId();
+    }
+    
     @Override
     public String getPassword() {
         return user.getPassword();
