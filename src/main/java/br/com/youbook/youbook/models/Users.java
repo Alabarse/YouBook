@@ -34,9 +34,7 @@ public class Users implements UserDetails{
     @NotEmpty
     private String username;
     
-    @Lob
-    @Column(length = 45, nullable = true, columnDefinition = "MEDIUMBLOB")
-    private byte[] perfilImage;
+    private String perfilImage;
     
     @NotEmpty
     private String nomeCompleto;

@@ -27,7 +27,7 @@
 
             <table>
                 <thead>
-                    <tr><th><img src=""/></th></tr>
+                   <tr><th><img th:src="@{/profile/{username}/{imagem}(username=${#authentication.getPrincipal().getUsername()}, imagem=${users?.getPerfilImage()})}"/></th></tr>
                 </thead>
                 <tbody> 
                     <tr>
