@@ -12,9 +12,10 @@
     </head>
     <body>
         <header>
-            <nav th:fragment="header" class="navbar navbar-dark bg-dark fixed-top">
+            <nav th:fragment="header" class="navbar navbar-dark bg-dark fixed-top" sec:authorize="isAnonymous()">
                 <div class="container-fluid" style="display: list-item">
                     <a class="navbar-brand" href="#">YouBook<img src="/imagens/coruja_logo_dark.png"/></a>
+
                     <button type="button" class="btn btn-primary position-relative" style="margin-left: 750px">
                         Inbox
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -50,7 +51,7 @@
                                 <div class="card-body bg-dark">
                                     <h5 class="card-title" style="color: white">Username</h5>
                                     <p class="card-text" style="color: white">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="/profile" class="btn btn-primary">Edit Profile</a>
+                                    <a href="/login" class="btn btn-primary">Logar</a>
                                 </div>
                             </div>
                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
@@ -82,6 +83,81 @@
                     </div>
                 </div>
             </nav>
+            
+            <!-- WHEN THE USER IS AUTHENTICATED -->
+            
+            <nav th:fragment="headerAuthenticated" class="navbar navbar-dark bg-dark fixed-top" sec:authorize="isAuthenticated()">
+                <div class="container-fluid" style="display: list-item">
+                    <a class="navbar-brand" href="#">YouBook<img src="/imagens/coruja_logo_dark.png"/></a>
+
+                    <button type="button" class="btn btn-primary position-relative" style="margin-left: 750px">
+                        Inbox
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            99+
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </button>
+
+                    <button class="navbar-toggler options" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+
+                    </button>
+                    <div sec:authorize="isAuthenticated()" class="profileIcon" style="display: list-item">
+                        <a th:href="@{/profile/{username}(username = ${#authentication?.getPrincipal().getUsername()})}"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-circle text-danger" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg></a>
+                    </div>
+                    <div sec:authorize="isAnonymous()" class="profileIcon" style="display: list-item">
+                        <a href="/login"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-circle text-danger" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/> </svg></a>
+                    </div>
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header bg-dark dark-mode">
+                            <h5 class="offcanvas-title navbar-dark" id="offcanvasNavbarLabel">YouBook</h5>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body bg-dark">
+                            <div class="card">
+                                <img th:src="@{imagem/{username} (username=${#authentication.getPrincipal().getUsername()})}"  width="5px" height="100px" class="card-img-top" alt="..."/>
+                                <div class="card-body bg-dark">
+                                    <h5 class="card-title" style="color: white">Username</h5>
+                                    <p class="card-text" style="color: white">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a th:href="@{/profile/{username}(username=${#authentication.getPrincipal().getUsername()})}" class="btn btn-primary">Edit Profile</a>
+                                </div>
+                            </div>
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="/">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Friends</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Options
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                                        <li><a class="dropdown-item" href="#">Library</a></li>
+                                        <li><a class="dropdown-item" href="#">Community Library</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider"/>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Writte</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <form class="d-flex">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
         </header>
 
         <br/>

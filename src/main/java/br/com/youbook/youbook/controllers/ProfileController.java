@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -46,16 +47,15 @@ public class ProfileController {
         return "profile";
     }
     
-    @GetMapping("/profile/{username}/{imagem}")
+    @GetMapping("imagem/{username}")
+    @ResponseBody
     public byte[] imageProfile(@PathVariable("username") String username) throws IOException {
         Users user = usersRepository.findByUsername(username);
-        String imagem = user.getPerfilImage();
-        if (imagem != null || imagem.trim().length() > 0) {
-            File archiveImage = new File(pathImage+imagem);
+        if (user.getPerfilImage() != null) {
+            File archiveImage = new File(pathImage+user.getPerfilImage());
             return Files.readAllBytes(archiveImage.toPath());
         }
         return null;
-        
     }
 
     @GetMapping("/register")

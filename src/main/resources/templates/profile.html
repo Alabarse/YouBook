@@ -12,7 +12,9 @@
     </head>
     <body>
         <header>
-            <div th:replace="index :: header"></div>
+            
+            <div sec:authorize="isAnonymous()" th:replace="index :: header"></div>
+            <div sec:autorize="isAuthenticated()" th:replace=" index :: headerAuthenticated"></div>
         </header>
 
         <br style="line-height: 4;"/>
@@ -27,7 +29,7 @@
 
             <table>
                 <thead>
-                   <tr><th><img th:src="@{/profile/{username}/{imagem}(username=${#authentication.getPrincipal().getUsername()}, imagem=${users?.getPerfilImage()})}"/></th></tr>
+                    <tr><th><img th:src="@{/imagem/{username}(username=${#authentication.getPrincipal().getUsername()})}" width="150px" height="150px"/></th></tr>
                 </thead>
                 <tbody> 
                     <tr>
