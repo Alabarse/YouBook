@@ -123,9 +123,9 @@
                             <div class="card">
                                 <img th:src="@{imagem/{username} (username=${#authentication.getPrincipal().getUsername()})}"  width="5px" height="100px" class="card-img-top" alt="..."/>
                                 <div class="card-body bg-dark">
-                                    <h5 class="card-title" style="color: white">Username</h5>
+                                    <h5 class="card-title" style="color: white"><span th:text="${#authentication.getPrincipal().getUsername()}"></span></h5>
                                     <p class="card-text" style="color: white">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a th:href="@{/profile/{username}(username=${#authentication.getPrincipal().getUsername()})}" class="btn btn-primary">Edit Profile</a>
+                                    <a th:href="@{/profile/{username}(username=${#authentication.getPrincipal().getUsername()})}" class="btn btn-primary">Edit Profile</a> <a href="/logout" class="btn btn-primary">Logout</a>
                                 </div>
                             </div>
                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">

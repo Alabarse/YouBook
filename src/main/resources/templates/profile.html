@@ -27,7 +27,7 @@
         </nav>
         <div  class="edit-body">
 
-            <table>
+            <table class="profile-informations">
                 <thead>
                     <tr><th><img th:src="@{/imagem/{username}(username=${#authentication.getPrincipal().getUsername()})}" width="150px" height="150px"/></th></tr>
                 </thead>
@@ -43,13 +43,13 @@
                                   th:object="${users}" >
                                 
                                 <label>Nome Completo</label> <br/>
-                                <input type="text" name="" th:placeholder="${#authentication.getPrincipal().getNomeCompleto()}"/> <br/>
+                                <input size="50" class="text-field" type="text" name="" th:placeholder="${#authentication.getPrincipal().getNomeCompleto()}"/> <br/>
                                 <label id="username_text">Username</label> <br/>
-                                <input type="text" th:placeholder="${#authentication.getPrincipal().getUsername()}" style="text-transform: uppercase;" name="username"/> <br/>
+                                <input size="50" class="text-field" type="text" th:placeholder="${#authentication.getPrincipal().getUsername()}" style="text-transform: uppercase;" name="username"/> <br/>
                                 <label>Password</label> <br/>
-                                <input th:type="password" placeholder="*********" name="password"/><br/>
+                                <input size="50" class="text-field" th:type="password" placeholder="*********" name="password"/><br/>
                                 <label>Email</label><br/>
-                                <input type="email" th:placeholder="${#authentication.getPrincipal().getEmail()}" name="email"/><br/>
+                                <input size="50" class="text-field" type="email" th:placeholder="${#authentication.getPrincipal().getEmail()}" name="email"/><br/>
                                 <input type="submit"/>
                             </form></td>
                     </tr>

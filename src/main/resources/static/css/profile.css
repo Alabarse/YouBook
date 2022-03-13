@@ -10,7 +10,7 @@ body {
     display: grid;
     background-color: beige; 
     margin: 0px 50px; 
-    padding: 220px
+    
 }
 
 .edit-body span#username_text {
@@ -24,4 +24,14 @@ body {
 .profileIcon {
     margin: -36px 0px 0px 1010px;
     padding: 5px;
+}
+
+.profile-informations {
+    text-align: center;
+}
+
+.text-field {
+    text-align: center;
+    padding: 2px;
+    margin: 5px;
 }
