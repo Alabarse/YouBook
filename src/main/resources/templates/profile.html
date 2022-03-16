@@ -14,7 +14,7 @@
         <header>
             
             <div sec:authorize="isAnonymous()" th:replace="index :: header"></div>
-            <div sec:autorize="isAuthenticated()" th:replace=" index :: headerAuthenticated"></div>
+            <div sec:authorize="isAuthenticated()" th:replace=" index :: headerAuthenticated"></div>
         </header>
 
         <br style="line-height: 4;"/>
@@ -54,16 +54,12 @@
                             </form></td>
                     </tr>
                 </tbody>
-
             </table>
-
-
-
-
-
-
         </div>
 
+        <div sec:authorize="isAuthenticated()">
+            <footer th:replace="index :: footer"></footer>
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     </body>

@@ -39,23 +39,29 @@ public class ProfileController {
 
     @Autowired
     private MyUserPrincipal myUserPrincipal;
-    
+
     private static String pathImage = "D:/Mateus/Estudos Java/youbook/src/main/java/br/com/youbook/youbook/userProfilePictures/";
 
     @GetMapping("/profile/{username}")
     public String profilePage(@PathVariable("username") String username) {
         return "profile";
     }
-    
+
     @GetMapping("imagem/{username}")
     @ResponseBody
     public byte[] imageProfile(@PathVariable("username") String username) throws IOException {
         Users user = usersRepository.findByUsername(username);
-        if (user.getPerfilImage() != null) {
-            File archiveImage = new File(pathImage+user.getPerfilImage());
-            return Files.readAllBytes(archiveImage.toPath());
+        try {
+            if (user.getPerfilImage() != null) {
+                File archiveImage = new File(pathImage + user.getPerfilImage());
+                return Files.readAllBytes(archiveImage.toPath());
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
-        return null;
+        File archiveDefaullt = new File(pathImage + "userDefault.png");
+        return Files.readAllBytes(archiveDefaullt.toPath());
+
     }
 
     @GetMapping("/register")
@@ -82,13 +88,13 @@ public class ProfileController {
 
         if (!multipartFile.isEmpty()) {
             user = usersRepository.findByUsername(username);
-            
+
             byte[] bytesOfImage = multipartFile.getBytes();
-            Path path = Paths.get(pathImage+user.getUsername()+"_"+multipartFile.getOriginalFilename());
+            Path path = Paths.get(pathImage + user.getUsername() + "_" + multipartFile.getOriginalFilename());
             Files.write(path, bytesOfImage);
-            
-            user.setPerfilImage(String.valueOf(user.getUsername()+"_"+multipartFile.getOriginalFilename()));
-            
+
+            user.setPerfilImage(String.valueOf(user.getUsername() + "_" + multipartFile.getOriginalFilename()));
+
             usersRepository.saveAndFlush(user);
             return "redirect:/profile/{username}";
         }
